@@ -7,11 +7,17 @@
 </head>
 <body>
     <h1>ユーザー登録</h1>
-    <form action="new_user_registra.php" method="POST">
+    <form action="./new_user.php" method="POST">
         <p>ユーザー名：<input type="text" name="user_name"></p>
         <p>パスワード：<input type="text" name="user_pass"></p>
-    <button type="submit">登録</button>
+    <button type="submit" name="Registra">登録</button>
     </form> 
-    <a href="">ログインはこちら</a>
+    <a href="./login.php">ログインはこちら</a>
+    <?php
+    if(isset($_POST["Registra"])){
+        
+    }
+
+    ?>
 </body>
 </html>
