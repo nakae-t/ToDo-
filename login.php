@@ -9,12 +9,12 @@
     <h1>ログイン</h1>
     <form action="loginAuthenticate.php" method="POST">
         <p>
-            <label for="user_name">ユーザー名：</label>
-            <input type="text" name="user_name" required>
+            <label for="userName">ユーザー名：</label>
+            <input type="text" name="userName" required>
         </p>
         <p>
-            <label for="user_pass">パスワード：</label>
-            <input type="text" name="user_pass" required>
+            <label for="userPassword">パスワード：</label>
+            <input type="text" name="userPassword" required>
         </p>
         <button type="submit">ログイン</button>
     </form>
