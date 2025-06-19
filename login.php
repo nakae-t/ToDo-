@@ -1,3 +1,12 @@
+<?php
+// セッション宣言
+session_start();
+
+// ユーザー情報が見つからなかった場合
+if(!empty($_SESSION['errorMassage'])){
+    echo '<script>alert("' . $_SESSION['errorMessage']. '");</script>';
+}
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>

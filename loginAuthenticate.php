@@ -1,4 +1,6 @@
 <?php
+// セッション宣言
+session_start();
 // データベース接続
 require_once './config/connectionDB.php';
 // SQL文の生成(本の新着Top50をbooksテーブルから取得)
@@ -32,7 +34,7 @@ if($result){
     //メインページへリダイレクト
     header("Location: https://aso2301199.pinoko.jp/ToDo/Todo_list.php");
 } else {
-    echo '<script>alert("ユーザー情報が見つかりませんでした\r\n");</script>';
+    $_SESSION['errorMessage'] = 'ユーザー情報が見つかりませんでした';
     // ログインページへリダイレクト
     header("Location: https://aso2301199.pinoko.jp/ToDo/login.php");
 }
