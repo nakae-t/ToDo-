@@ -3,8 +3,9 @@
 session_start();
 
 // ユーザー情報が見つからなかった場合
-if(!empty($_SESSION['errorMassage'])){
-    echo '<script>alert("' . $_SESSION['errorMessage']. '");</script>';
+if (isset($_SESSION['errorMessage']) && !empty($_SESSION['errorMessage'])) {
+    echo '<script>alert("' . htmlspecialchars($_SESSION['errorMessage'], ENT_QUOTES, 'UTF-8') . '");</script>';
+    unset($_SESSION['errorMessage']); // 一度表示したら消すのが一般的
 }
 ?>
 <!DOCTYPE html>
