@@ -7,7 +7,7 @@ if(isset($_POST["Registra"])){
         $stmt = $pdo->prepare("INSERT INTO users(username, password) VALUES (?, ?)");
         $stmt->execute([$user_name,$user_pass]);
         // 登録完了後ログイン画面に遷移
-        header("Location:https://aso2301180.pinoko.jp/ToDo/login.php");
+        header("Location:https://aso2301199.pinoko.jp/ToDo/login.php");
         exit;
     }
 ?>

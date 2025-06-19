@@ -15,7 +15,7 @@ try {
 } catch (PDOException $e) {
     echo '接続に問題が発生しました:' . $e->getMessage();
     // ログインページへリダイレクト
-    header("Location: https://aso2301199.pinoko.jp/ToDo-/login.php");
+    header("Location: https://aso2301199.pinoko.jp/ToDo/login.php");
     // DB接続を切断
     $pdo = null;
     // スクリプト実行を切断
@@ -30,10 +30,10 @@ if($result){
     // セッションにユーザーIDを保存
     $_SESSION['USERID'] = $result;
     //メインページへリダイレクト
-    header("Location: https://aso2301199.pinoko.jp/ToDo-/Todo_list.php");
+    header("Location: https://aso2301199.pinoko.jp/ToDo/Todo_list.php");
 } else {
     echo '<script>alert("ユーザー情報が見つかりませんでした\r\n");</script>';
     // ログインページへリダイレクト
-    header("Location: https://aso2301199.pinoko.jp/ToDo-/login.php");
+    header("Location: https://aso2301199.pinoko.jp/ToDo/login.php");
 }
 ?>
