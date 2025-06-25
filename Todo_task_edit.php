@@ -3,7 +3,7 @@ if (isset($_POST['save'])) {
     // データベース接続
     require_once './config/connectionDB.php';
     // SQL文の生成(本の新着Top50をbooksテーブルから取得)
-    $SQL = "UPDATE tudos SET task = :task, status = :status, due_date = :due_date, priority = :priority WHERE id = :id";
+    $SQL = "UPDATE todos SET task = :task, status = :status, due_date = :due_date, priority = :priority WHERE id = :id";
     try {
         // プリペアードステートメントの作成
         $stmt = $pdo->prepare($SQL);
@@ -69,15 +69,15 @@ if (isset($_POST['save'])) {
 
 <body>
     <h1>タスク編集</h1>
-    <form action="#" method="post">
+    <form action="" method="post">
         <input type="hidden" name="task_id" value="<?= $TASK_ID ?>">
         <p>
             <label for="task">内容：</label>
             <input type="text" name="task" value="<?= $task['task'] ?>" required>
         </p>
         <p>
-            <label for="day">期限：</label>
-            <input type="date" name="day" value="<?= $task['due_date'] ?>" required>
+            <label for="due_date">期限：</label>
+            <input type="date" name="due_date" value="<?= $task['due_date'] ?>" required>
         </p>
         <p>
             <label for="priority">優先度：</label>
