@@ -29,11 +29,8 @@ if (isset($_POST['save'])) {
         $pdo = null;
     }
 } else {
-
-    // タスクIDの受け取り
-    $TASK_ID = $_GET['task_id'];
     // 安全な出力（XSS対策）
-    $TASK_ID = htmlspecialchars($username, ENT_QUOTES, 'UTF-8');
+    $TASK_ID = htmlspecialchars($_GET['task_id'], ENT_QUOTES, 'UTF-8');
 
     // データベース接続
     require_once './config/connectionDB.php';
@@ -73,7 +70,7 @@ if (isset($_POST['save'])) {
 <body>
     <h1>タスク編集</h1>
     <form action="#" method="post">
-        <input type="hide" name="task_id" value="<?= $TASK_ID ?>">
+        <input type="hidden" name="task_id" value="<?= $TASK_ID ?>">
         <p>
             <label for="task">内容：</label>
             <input type="text" name="task" value="<?= $task['task'] ?>" required>
