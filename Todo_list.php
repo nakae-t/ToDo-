@@ -30,7 +30,7 @@ $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :user_id");
     <!-- ログイン中のアカウント名を追加 -->
     <p><?=$user['username']?> さん： <a href="./login.php">ログアウト</a></p>
 
-    <form action="./Todo_list.php" method="POST">
+    <form action="" method="POST">
 
         <!-- todoの追加クラス -->
         <div class="Todo_add">
@@ -39,11 +39,11 @@ $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :user_id");
             <input type="date" name="day">
             <select name="priority" id="priority">
                 <option value="" disabled selected>優先度を選択</option>
-                <option value="priority_low">低</option>
-                <option value="priority_medium">中</option>
-                <option value="priority_high">高</option>
+                <option value= 0>低</option>
+                <option value= 1>中</option>
+                <option value= 2>高</option>
             </select>
-            <button type="submit" name="todo_add">追加</button>
+            <button type="submit" name="todo_add" value="todo_add">追加</button>
         </div>
 
 
@@ -52,32 +52,56 @@ $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :user_id");
             <h2>フィルタ/検索</h2>
             <input type="text" name="Search" placeholder="キーワード">
             
-            <!-- DBから今までの登録日次を取得 -->
-            <select name="Search_day" id="day">
-                <option value="" disabled selected>登録日を選択</option>
-                <option value="day_all">すべて</option>
-                <!-- DBから登録日次を取得 -->
-                <?php
-                $stmt = $pdo->query("SELECT DISTINCT DATE(created_at) AS created_day FROM todos ORDER BY created_day DESC");
-                $dates = $stmt->fetchAll(PDO::FETCH_COLUMN);
-                foreach ($dates as $date) {
-                    echo '<option value="' . htmlentities($date, ENT_QUOTES, 'UTF-8') . '">' . htmlentities($date, ENT_QUOTES, 'UTF-8') . '</option>';
-                }
-                ?>
+            <!-- DBから今までのタスク状況を取得 -->
+            <select name="todo" id="todo">
+                <option value="3" disabled selected>タスク状況を選択</option>
+                <option value="todo_all">すべて</option>
+                <option value="done">完了</option>
+                <option value="todo">未完了</option>
+                
             </select>
 
             <!-- DBから今までの優先順位を取得 -->
-            <select name="Search_priority" id="priority">
-                <option value="" disabled selected>優先度を選択</option>
-                <option value="priority_all">優先度すべて</option>
-                <option value="priority_low">低</option>
-                <option value="priority_medium">中</option>
-                <option value="priority_high">高</option>
+            <select name="Search_priority" id="Search_priority">
+                <option value="3" disabled selected>優先度を選択</option>
+                <option value="3">優先度すべて</option>
+                <option value="0">低</option>
+                <option value="1">中</option>
+                <option value="2">高</option>
             </select>
-            <button type="submit" name="todo_add">検索</button>
+            <button type="submit" name="todo_Search" value="todo_Search">検索</button>
         </div>
-
     </form>
+
+    
+    
+
+
+
+        <?php
+        if(isset($_POST["todo_add"])) {
+           $add = $pdo->prepare("
+                INSERT INTO todos (user_id, task, due_date, priority) 
+                VALUES (:user_id, :task, :day, :priority)
+            ");
+
+            $add->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            $add->bindValue(':task', $_POST["task"], PDO::PARAM_STR);
+            $add->bindValue(':day', $_POST["day"], PDO::PARAM_STR);
+            $add->bindValue(':priority', $_POST["priority"], PDO::PARAM_INT);
+
+            $add->execute();
+
+            echo '<script>alert("タスクを追加しました");</script>';
+
+        }else if(isset($_POST["todo_Search"])) {
+              
+        }
+
+            ?>
+            
+
+
     
 </body>
 </html>
