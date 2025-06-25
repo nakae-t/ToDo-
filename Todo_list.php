@@ -52,7 +52,7 @@ $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :user_id");
             <h2>フィルタ/検索</h2>
             <input type="text" name="Search" placeholder="キーワード">
             
-            <!-- DBから今までのタスク状況を取得 -->
+            <!-- 検索したいタスクの状態を選択 -->
             <select name="todo" id="todo">
                 <option value="3" disabled selected>タスク状況を選択</option>
                 <option value="todo_all">すべて</option>
@@ -61,7 +61,7 @@ $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :user_id");
                 
             </select>
 
-            <!-- DBから今までの優先順位を取得 -->
+            <!-- 検索したいタスクの優先度を選択 -->
             <select name="Search_priority" id="Search_priority">
                 <option value="3" disabled selected>優先度を選択</option>
                 <option value="3">優先度すべて</option>
@@ -72,13 +72,47 @@ $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :user_id");
             <button type="submit" name="todo_Search" value="todo_Search">検索</button>
         </div>
     </form>
+   
+    <!-- ユーザのリストを表示 -->
+    <?php
+    try {
+        $stmt = $pdo->prepare("SELECT status, task, due_date, priority FROM todos WHERE user_id = :user_id");
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->execute();
 
-    
-    
+        $todos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        // 優先度の表示変更の処理
+        function convertPriority($value) {
+            switch ($value) {
+                case 0: return '低';
+                case 1: return '中';
+                case 2: return '高';
+                default: return '不明';
+            }
+        }
+
+
+        if (count($todos) > 0) {
+            foreach ($todos as $todo) {
+                echo "<p>状態: " . htmlspecialchars($todo['status']) . "</p>";
+                echo "<p>タスク: " . htmlspecialchars($todo['task']) . "</p>";
+                echo "<p>期限: " . htmlspecialchars($todo['due_date']) . "</p>";
+                echo "<p>優先度: " . convertPriority($todo['priority']) . "</p>";
+                echo "<hr>";
+            }
+        } else {
+            echo "<p>タスクが登録されていません。</p>";
+        }
+    } catch (PDOException $e) {
+        echo "エラー: " . $e->getMessage();
+    }
+    ?>
 
 
         <?php
+
+        // Todoリストの追加機能
         if(isset($_POST["todo_add"])) {
            $add = $pdo->prepare("
                 INSERT INTO todos (user_id, task, due_date, priority) 
@@ -94,14 +128,12 @@ $stmt = $pdo->prepare("SELECT * FROM users WHERE id = :user_id");
 
             echo '<script>alert("タスクを追加しました");</script>';
 
-        }else if(isset($_POST["todo_Search"])) {
-              
+        }else if(isset($_POST["todo_Search"])){
+
         }
-
-            ?>
+        
+    ?>
             
-
-
     
 </body>
 </html>
