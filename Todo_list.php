@@ -50,6 +50,11 @@ if (isset($_POST["todo_add"])) {
     echo '<script>alert("タスクを追加しました");</script>';
 } else if (isset($_POST["todo_Search"])) {
     // 検索処理が後から追加される予定
+
+
+
+
+    
 }
 ?>
 <!DOCTYPE html>
@@ -118,7 +123,7 @@ try {
 
     if (count($todos) > 0) {
         foreach ($todos as $todo) {
-            $id = htmlspecialchars($todo['id']);
+            $task_id = htmlspecialchars($todo['id']);
             $status = htmlspecialchars($todo['status']);
             $checked = ($status === 'done') ? 'checked' : '';
             echo "<div>";
@@ -128,11 +133,11 @@ try {
             echo "<b>優先度:</b> " . convertPriority($todo['priority']) . "<br />";
 
             //編集（更新）
-            echo "<b>操作：</b><a href='Todo_task_edit.php?id=$id'>編集</a> ";
+            echo "<b>操作：</b><a href='Todo_task_edit.php?task_id=$task_id'>編集</a> ";
 
             //削除
             echo "<form method='POST' style='display:inline;' onsubmit='return confirm(\"本当に削除しますか？\");'>";
-            echo "<input type='hidden' name='delete_id' value='{$id}'>";
+            echo "<input type='hidden' name='delete_id' value='{$task_id}'>";
             echo "<button type='submit'>削除</button>";
             echo "</form>";
 

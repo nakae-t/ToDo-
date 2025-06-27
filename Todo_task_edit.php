@@ -11,7 +11,7 @@ if (isset($_POST['save'])) {
         $stmt->bindValue(':status', $_POST['status'], PDO::PARAM_STR);
         $stmt->bindValue(':due_date', $_POST['due_date']);
         $stmt->bindValue(':priority', $_POST['priority'], PDO::PARAM_INT);
-        $stmt->bindValue(':id', $_POST['task_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':id', $_GET['task_id'], PDO::PARAM_INT);
         // ステートメントの実行
         $stmt->execute();
     } catch (PDOException $e) {
@@ -90,8 +90,8 @@ if (isset($_POST['save'])) {
         <p>
             <label for="status">状態：</label>
             <select name="status" id="status">
-                <option value="todo" <?= ($task["status"] == 'todo') ? 'selected' : ''; ?>>完了</option>
-                <option value="done" <?= ($task["status"] == 'done') ? 'selected' : ''; ?>>未完了</option>
+                <option value="todo" <?= ($task["status"] == 'todo') ? 'selected' : ''; ?>>未完了</option>
+                <option value="done" <?= ($task["status"] == 'done') ? 'selected' : ''; ?>>完了</option>
             </select>
         </p>
         <button type="submit" name="save" value="save">保存</button>
