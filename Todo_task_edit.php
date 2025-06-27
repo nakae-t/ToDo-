@@ -11,7 +11,7 @@ if (isset($_POST['save'])) {
         $stmt->bindValue(':status', $_POST['status'], PDO::PARAM_STR);
         $stmt->bindValue(':due_date', $_POST['due_date']);
         $stmt->bindValue(':priority', $_POST['priority'], PDO::PARAM_INT);
-        $stmt->bindValue(':id', $_GET['task_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':id', $_POST['task_id'], PDO::PARAM_INT);
         // ステートメントの実行
         $stmt->execute();
     } catch (PDOException $e) {
