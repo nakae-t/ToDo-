@@ -56,7 +56,25 @@ if (isset($_POST["todo_add"])) {
 } else if (isset($_POST["todo_Search"])) {
     // 検索処理が後から追加される予定
 
+    // 入力値
+    // $_POST['Search'] 空かtodo内容
+    // $_POST['todo'] タスクのstatus todo dune どっちも：todo_all
+    // $_POST['Search_priority'] タスク優先度　低:0　中:1　高：2　どっちも：3
 
+    // SQL文の生成
+    if($_POST['todo'] == 'todo_all'){
+        if($_POST['Search_priority'] == '3'){
+            
+        } else {
+
+        }
+    } else {
+        if($_POST['Search_priority'] == '3'){
+            
+        } else {
+
+        }
+    }
 
 
 
