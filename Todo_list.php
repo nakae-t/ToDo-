@@ -61,20 +61,53 @@ if (isset($_POST["todo_add"])) {
     // $_POST['todo'] タスクのstatus todo dune どっちも：todo_all
     // $_POST['Search_priority'] タスク優先度　低:0　中:1　高：2　どっちも：3
 
-    // SQL文の生成
-    // taskの指定(空もあり)、statusとpriorityの指定無しの場合
+    // ↓SQL文の生成↓
+    
+    //検索キーワードの作成
+    $searchTask = '%' . $_POST['Search'] . '%';
+
+    // 基礎SQL
+    $SQL = "SELECT * FROM todos WHERE task LIKE :task";
+
+    // 動的にWHERE句を追加
+    $params = [':task' => $searchTask];
+
+    // ここから！！！！！
+
+
+
+    // taskの指定(空の場合は空文字列が入っている)、statusとpriorityが指定無しの場合
     $SQL="SELECT * FROM todos WHERE task LIKE :task";
     if($_POST['todo'] == 'todo_all'){
         if($_POST['Search_priority'] == '3'){
-            $SQL="SELECT * FROM todos WHERE task LIKE :task";
+            // statusとpriorityが指定無しの場合
+            $filtering = $pdo->prepare($SQL);
+            $filtering->bindParam(':task', '%'.$_POST['Search'].'%', PDO::PARAM_STR);
+
         } else {
-            $SQL="SELECT * FROM todos WHERE task LIKE :task AND status = :status";
+            // statusが指定無しの場合
+            $SQL = $SQL . " AND priority = :priority";
+            $filtering = $pdo->prepare($SQL);
+            $filtering->bindParam(':task', '%'.$_POST['Search'].'%', PDO::PARAM_STR);
+            $filtering->bindValue(':priority', $_POST['Search_priority'], PDO::PARAM_INT);
+
         }
     } else {
         if($_POST['Search_priority'] == '3'){
-            $SQL="SELECT * FROM todos WHERE task LIKE :task AND status = :status AND priority = :priority";
+            // priorityが指定無しの場合
+            $SQL = $SQL . " AND status = :status";
+            $filtering = $pdo->prepare($SQL);
+            $filtering->bindParam(':task', '%'.$_POST['Search'].'%', PDO::PARAM_STR);
+            $filtering->bindValue(':status', $_POST['status'], PDO::PARAM_STR);
+
         } else {
-            $SQL="SELECT * FROM todos WHERE task LIKE :task AND status = :status AND priority = :priority";
+            // どちらも指定する場合
+            $SQL = $SQL . " AND status = :status AND priority = :priority";
+            $filtering = $pdo->prepare($SQL);
+            $filtering->bindParam(':task', '%'.$_POST['Search'].'%', PDO::PARAM_STR);
+            $filtering->bindValue(':priority', $_POST['Search_priority'], PDO::PARAM_INT);
+            $filtering->bindValue(':status', $_POST['status'], PDO::PARAM_STR);
+
         }
     }
 
