@@ -62,17 +62,19 @@ if (isset($_POST["todo_add"])) {
     // $_POST['Search_priority'] タスク優先度　低:0　中:1　高：2　どっちも：3
 
     // SQL文の生成
+    // taskの指定(空もあり)、statusとpriorityの指定無しの場合
+    $SQL="SELECT * FROM todos WHERE task LIKE :task";
     if($_POST['todo'] == 'todo_all'){
         if($_POST['Search_priority'] == '3'){
-            
+            $SQL="SELECT * FROM todos WHERE task LIKE :task";
         } else {
-
+            $SQL="SELECT * FROM todos WHERE task LIKE :task AND status = :status";
         }
     } else {
         if($_POST['Search_priority'] == '3'){
-            
+            $SQL="SELECT * FROM todos WHERE task LIKE :task AND status = :status AND priority = :priority";
         } else {
-
+            $SQL="SELECT * FROM todos WHERE task LIKE :task AND status = :status AND priority = :priority";
         }
     }
 
@@ -111,7 +113,7 @@ if (isset($_POST["todo_add"])) {
         <!-- タスク検索クラス -->
         <div class="Todo_search">
             <h2>フィルタ/検索</h2>
-            <input type="text" name="Search" placeholder="キーワード">
+            <input type="text" name="Search" value="" placeholder="キーワード">
 
             <!-- 検索したいタスクの状態を選択 -->
             <select name="todo" id="todo">
