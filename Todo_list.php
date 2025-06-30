@@ -72,6 +72,30 @@ if (isset($_POST["todo_add"])) {
     // 動的にWHERE句を追加
     $params = [':task' => $searchTask];
 
+    // statusの処理
+    if ($_POST['todo'] !== 'todo_all'){
+        $SQL .= " AND status = :status";
+        $params[':status'] = $_POST['status'];
+    }
+
+    // priorityの処理
+    if ($_POST['Search_priority'] !== '3'){
+        $SQL .= " AND priority = :priority";
+        $params[':priority'] = (int)$_POST['Search_priority'];
+    }
+
+    // SQL準備
+    $filtering = $pdo->prepare($SQL);
+
+    // バインド処理
+    foreach($params as $key => $value){
+        if($key === ':priority') { 
+            $filtering->bindValue($key, $value, PDO::PARAM_INT);
+        } else {
+            $filtering->bindValue($key, $value, PDO::PARAM_STR);
+        }
+    }
+
     // ここから！！！！！
 
 
