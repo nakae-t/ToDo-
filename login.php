@@ -32,11 +32,11 @@ if (isset($_SESSION['errorMessage']) && !empty($_SESSION['errorMessage'])) {
     <form action="loginAuthenticate.php" method="POST">
         <p>
             <label for="userName">ユーザー名：</label>
-            <input type="text" name="userName" required>
+            <input type="text" name="userName" value="Yuta" required>
         </p>
         <p>
             <label for="userPassword">パスワード：</label>
-            <input type="text" name="userPassword" required>
+            <input type="text" name="userPassword" value="pass" required>
         </p>
         <button type="submit">ログイン</button>
     </form>

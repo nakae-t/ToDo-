@@ -30,7 +30,7 @@ try {
 // ユーザー情報が見つかったか
 if($result){
     // セッションにユーザーIDを保存
-    $_SESSION['USERID'] = $result;
+    $_SESSION['USERID'] = $result['id'];
     //メインページへリダイレクト
     header("Location: https://aso2301199.pinoko.jp/ToDo/Todo_list.php");
 } else {
