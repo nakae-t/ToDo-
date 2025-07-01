@@ -20,7 +20,7 @@ $stmt->execute();
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // 一覧表示の内容を格納する変数の宣言
-$TODOS = null;
+$TODOS = [];
 
 // タスク削除処理
 if (isset($_POST['functionalParameter']) && $_POST['functionalParameter'] === 'delete') {
@@ -83,7 +83,7 @@ if (isset($_POST['functionalParameter']) && $_POST['functionalParameter'] === 'd
 
     // バインド処理
     foreach ($params as $key => $value) {
-        if ($key === ':priority' || $key === ':id') {
+        if ($key === ':priority' || $key === ':user_id') {
             $filtering->bindValue($key, $value, PDO::PARAM_INT);
         } else {
             $filtering->bindValue($key, $value, PDO::PARAM_STR);
