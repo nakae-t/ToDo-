@@ -19,6 +19,8 @@ $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 $stmt->execute();
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+$TODOS = [];
+
 // タスク削除処理
 if (isset($_POST['functionalParameter']) && $_POST['functionalParameter'] === 'delete') {
     $delete = $pdo->prepare("DELETE FROM todos WHERE id = :id AND user_id = :user_id");
@@ -64,13 +66,13 @@ if (isset($_POST['functionalParameter']) && $_POST['functionalParameter'] === 'd
     }
 
     // statusの処理
-    if ($_POST['status'] !== 'todo_all') {
+    if (isset($_POST['status']) && $_POST['status'] !== 'todo_all') {
         $SQL .= " AND status = :status";
         $params[':status'] = $_POST['status'];
     }
 
     // priorityの処理
-    if ($_POST['Search_priority'] !== '3') {
+    if (isset($_POST['Search_priority']) && $_POST['Search_priority'] !== '3') {
         $SQL .= " AND priority = :priority";
         $params[':priority'] = (int)$_POST['Search_priority'];
     }
@@ -145,8 +147,7 @@ function convertPriority($value)
             <input type="text" name="task" placeholder="タスク内容" required>
             <input type="date" name="day" required>
             <select name="priority" id="priority" required>
-                <option value="" disabled selected>優先度を選択</option>
-                <option value="0">低</option>
+                <option value="0" selected>優先度（低）</option>
                 <option value="1">中</option>
                 <option value="2">高</option>
             </select>
@@ -161,16 +162,14 @@ function convertPriority($value)
 
             <!-- 検索したいタスクの状態を選択 -->
             <select name="status" id="todo" required>
-                <option value="todo_all" disabled selected>タスク状況を選択</option>
-                <option value="todo_all">すべて</option>
+                <option value="todo_all" selected>すべて</option>
                 <option value="done">完了</option>
                 <option value="todo">未完了</option>
             </select>
 
             <!-- 検索したいタスクの優先度を選択 -->
             <select name="Search_priority" id="Search_priority" required>
-                <option value="3" disabled selected>優先度を選択</option>
-                <option value="3">優先度すべて</option>
+                <option value="3" selected>優先度（すべて）</option>
                 <option value="0">低</option>
                 <option value="1">中</option>
                 <option value="2">高</option>
