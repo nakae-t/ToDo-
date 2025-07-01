@@ -19,9 +19,6 @@ $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 $stmt->execute();
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// 一覧表示の内容を格納する変数の宣言
-$TODOS = [];
-
 // タスク削除処理
 if (isset($_POST['functionalParameter']) && $_POST['functionalParameter'] === 'delete') {
     $delete = $pdo->prepare("DELETE FROM todos WHERE id = :id AND user_id = :user_id");
