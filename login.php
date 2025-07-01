@@ -2,6 +2,18 @@
 // セッション宣言
 session_start();
 
+// セッション情報が保持されている場合
+if(isset($_SESSION['USERID'])){
+
+    // セッション情報を破棄
+    session_destroy();
+
+    // 再度このページにリダイレクト
+    header("Location: https://aso2301199.pinoko.jp/ToDo/login.php");
+
+    exit;
+}
+
 // ユーザー情報が見つからなかった場合
 if (isset($_SESSION['errorMessage']) && !empty($_SESSION['errorMessage'])) {
     echo '<script>alert("' . htmlspecialchars($_SESSION['errorMessage'], ENT_QUOTES, 'UTF-8') . '");</script>';
